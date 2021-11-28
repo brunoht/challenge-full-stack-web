@@ -121,5 +121,4 @@ pnpm-debug.log*
 *.sw?
 
 .DS_Store
-/webapp/node_modules/
 
