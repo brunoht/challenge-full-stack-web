@@ -108,13 +108,19 @@ export default {
       dialogDelete: false,
       headers: [
         {
+          text: 'Registro Acadêmico',
+          value: 'ra'
+        },
+        {
           text: 'Nome',
           align: 'start',
           value: 'name',
         },
-        { text: 'E-mail', value: 'email' },
-        { text: 'RA', value: 'ra' },
-        { text: 'CPF', value: 'cpf' },
+
+        {
+          text: 'CPF',
+          value: 'cpf'
+        },
         {
           text: 'Ações',
           value: 'actions',
