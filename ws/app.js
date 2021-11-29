@@ -6,9 +6,9 @@ require('dotenv').config();
 app.use(express.json())
 app.use(require('./src/routes/index'));
 
-const appUrl = process.env.APP_URL;
+const appHost = process.env.APP_HOST;
 const appPort = process.env.APP_PORT;
 
-app.listen(appPort, ()=>{
-    console.log("Server started on port " + appPort + ":" + appUrl + ":" + appPort)
+app.listen(appPort, appHost,()=>{
+    console.log("Server started on port " + appPort + ": http://" + appHost + ":" + appPort)
 })
