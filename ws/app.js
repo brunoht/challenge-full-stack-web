@@ -4,6 +4,8 @@ const app = express();
 require('dotenv').config();
 
 app.use(express.json())
+
+app.use(require('./src/middlewares/cors'));
 app.use(require('./src/routes/index'));
 
 const appHost = process.env.APP_HOST;
