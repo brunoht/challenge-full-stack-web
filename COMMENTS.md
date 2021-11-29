@@ -59,8 +59,6 @@ sugestão para futura melhoria também.
 
 ### Lista de bibliotecas de terceiros utilizadas
 
-#### Backend
-
 nodemon: utilizado para melhorar a produtividade, pois realiza hot reload automático sempre que há alguma alteração no
 código, sem que eu precise parar e reiniciar a aplicação.
 
@@ -75,10 +73,6 @@ local onde a aplicação está instalada evitando que haja qualquer alteração 
 jest: ferramenta para executar testes.
 
 axios: utilizado em conjunto do jest para realizar alguns testes na API.
-
-
-#### Frontend
-
 
 ### O que você melhoraria se tivesse mais tempo
 
@@ -101,5 +95,5 @@ de uso e navegação ficassem mais agradáveis.
 
 ### Quais requisitos obrigatórios que não foram entregues
 
-Nenhum.
+Nenhum. Todos os requisitos obrigatórios foram entregues.
 

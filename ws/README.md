@@ -14,3 +14,8 @@ npm install -g nodemon
 ```
 nodemon app.js
 ```
+
+### Run tests
+```
+npm test
+```
