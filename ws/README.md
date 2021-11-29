@@ -2,8 +2,6 @@
 
 Click to read [FULL DOCUMENTATION](https://documenter.getpostman.com/view/619643/UVJckwCK).
 
-
-
 ## Project setup
 ```
 npm install
