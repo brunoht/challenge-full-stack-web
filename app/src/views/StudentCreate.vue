@@ -83,7 +83,21 @@ export default {
 
   methods: {
     submit () {
-      this.$v.$touch()
+      this.$v.$touch();
+      if(!this.$v.$invalid){
+        this.$http.post('http://localhost:8081/api/v1/student', {
+          name: this.name,
+          email: this.email,
+          ra: this.ra,
+          cpf: this.cpf
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     clear () {
       this.$v.$reset()

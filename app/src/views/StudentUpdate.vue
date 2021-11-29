@@ -65,18 +65,50 @@ export default {
   },
 
   data: () => ({
+    id: '',
     name: '',
     ra: '',
     email: '',
     cpf: '',
   }),
 
+  mounted() {
+    this.loadData();
+  },
+
   methods: {
+    loadData(){
+      this.$http.get('http://localhost:8081/api/v1/student/' + this.$route.params.id)
+          .then(response => {
+            let student = response.data;
+            this.id = student.id;
+            this.name = student.name;
+            this.ra = student.ra;
+            this.email = student.email;
+            this.cpf = student.cpf;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+    },
     submit () {
       this.$v.$touch()
+      if(!this.$v.$invalid) {
+        this.$http.put('http://localhost:8081/api/v1/student/' + this.id, {
+          name: this.name,
+          email: this.email
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     clear () {
       this.$v.$reset()
+      this.id = ''
       this.name = ''
       this.ra = ''
       this.email = ''

@@ -78,6 +78,9 @@
 
 <script>
 export default {
+  mounted() {
+    this.loadData();
+  },
   data () {
     return {
       search: '',
@@ -101,39 +104,41 @@ export default {
           align: 'end'
         },
       ],
-      students: [
-        {
-          "_id": '000001',
-          name: 'Bruno Henrique',
-          email: "bruno@lohl.com.br",
-          ra: "123456789",
-          cpf: "05753109950",
-        },
-        {
-          "_id": '000002',
-          name: 'Caleandra',
-          email: "cale@lohl.com.br",
-          ra: "987654321",
-          cpf: "12345678900",
-        },
-      ],
+      students: [],
     }
   },
 
   methods: {
+    loadData(){
+      this.$http.get('http://localhost:8081/api/v1/student')
+          .then(response => {
+            this.students = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+    },
     editItem(item){
-      this.$router.push({path: '/aluno/editar/' + item._id})
+      this.$router.push({path: '/aluno/editar/' + item.id})
     },
     deleteItem(item){
       this.editedName = item.name
-      this.editedId = item._id
+      this.editedId = item.id
       this.editedIndex = this.students.indexOf(item)
       this.dialogDelete = true
     },
     deleteItemConfirm(){
-      console.log('Delete item confirm')
-      this.students.splice(this.editedIndex, 1)
-      this.closeDelete()
+      this.$http.delete('http://localhost:8081/api/v1/student/' + this.editedId)
+          .then(() => {
+            this.students = [];
+            this.loadData();
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .then(() => {
+            this.closeDelete();
+          });
     },
     closeDelete() {
       this.dialogDelete = false
