@@ -42,7 +42,7 @@ todo o código foi montado num único arquivo, mas isso me ajuda a fazer as cois
 tecnologias que serão utilizadas no projeto, sem ficar me preocupando muito com a estrutura de pastas, passagem
 de dados, importação e uso de arquivos externos.
 
-Já na segunda etapa, o código já esava todo preparado e funcionando, foi quando realizei o refatoramento do código,
+Já na segunda etapa, o código já estava todo preparado e funcionando, foi quando realizei o refatoramento do código,
 aplicando melhores práticas de separação das responsabilidades e criando uma hierarquia de diretórios que me permita
 manter e escalar o projeto para as próximas atualizações. Como é um projeto didático apenas, claro que não forcei demais
 uma estruturação completa nem muito complexa. Eu ainda faria um pouco diferente se fosse um projeto real, mas
@@ -69,6 +69,13 @@ extra de segurança e tratamento e erros.
 
 cors: middleware para tratamento e requisições de origens externas.
 
+dotenv: armazena variáveis de ambiente permitindo que informações sensíveis ou variáveis que se aplicam apenas ao
+local onde a aplicação está instalada evitando que haja qualquer alteração no código fonte da aplicação.
+
+jest: ferramenta para executar testes.
+
+axios: utilizado em conjunto do jest para realizar alguns testes na API.
+
 
 #### Frontend
 
@@ -87,12 +94,10 @@ cors: middleware para tratamento e requisições de origens externas.
 - Considerando que o sistema é uma ambiente de cadastro de alunos (matrícula), seria muito importante inserir documentos
 digitalizados como RG, CNH e o histórico escolar para deixar anexado a matrícula do aluno. O aluno teria a possibilidade
 de enviar os documentos e os administradores seriam notificados para analisar aprovar/reprovar os documentos enviados 
-pelo aluno
+pelo aluno.
 - Melhoraria um pouco mais o design da aplicação, explorando mais o Material Design do Google, para que a experiência
 de uso e navegação ficassem mais agradáveis.
-- Inserção de um arquivo de configuração externo ao código para facilitar a instalação em ambientes de desenvolvimento e
-produção sem precisar alterar diretamente no código
-- Testes unitários
+- Criar uma camada de ORM que permita a seleção do banco de dados sem alteração no código da aplicação.
 
 ### Quais requisitos obrigatórios que não foram entregues
 
