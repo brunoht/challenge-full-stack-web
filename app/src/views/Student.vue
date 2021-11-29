@@ -65,15 +65,32 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
+          <v-btn color="red darken-2" text @click="closeDelete">Cancelar</v-btn>
           <v-btn color="blue darken-1" text @click="deleteItemConfirm">Confirmar</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-  </v-container>
+    <v-snackbar
+        v-model="snack"
+        :timeout="3000"
+        :color="snackColor"
+    >
+      {{ snackText }}
 
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            v-bind="attrs"
+            text
+            @click="snack = false"
+        >
+          Fechar
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+  </v-container>
 </template>
 
 <script>
@@ -81,6 +98,7 @@ export default {
   mounted() {
     this.loadData();
   },
+
   data () {
     return {
       search: '',
@@ -105,6 +123,9 @@ export default {
         },
       ],
       students: [],
+      snack: false,
+      snackColor: '',
+      snackText: '',
     }
   },
 
@@ -132,8 +153,10 @@ export default {
           .then(() => {
             this.students = [];
             this.loadData();
+            this.snackSuccess();
           })
           .catch(function (error) {
+            this.snackError();
             console.log(error);
           })
           .then(() => {
@@ -147,7 +170,17 @@ export default {
         this.editedId = -1
         this.editedName = ''
       })
-    }
+    },
+    snackSuccess() {
+      this.snack = true;
+      this.snackColor = 'success';
+      this.snackText = 'Excluído com sucesso!';
+    },
+    snackError() {
+      this.snack = true;
+      this.snackColor = 'error';
+      this.snackText = 'Não foi possível realizar a exclusão.';
+    },
   },
 }
 </script>

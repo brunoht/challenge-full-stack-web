@@ -18,6 +18,7 @@
               @input="$v.name.$touch()"
               @blur="$v.name.$touch()"
               placeholder="Informe o nome completo"
+              ref="focus"
           ></v-text-field>
 
           <v-text-field
@@ -49,27 +50,55 @@
               placeholder="Informe o número do documento"
           ></v-text-field>
 
-          <v-btn @click="clear" class="mr-4">
+          <v-btn @click="cancel" class="mr-4">
             Cancelar
           </v-btn>
 
-          <v-btn type="submit" :disabled="$v.$invalid">
+          <v-btn type="submit" :disabled="$v.$invalid" color="primary">
             Salvar
           </v-btn>
 
         </form>
       </v-col>
     </v-row>
+
+    <v-snackbar
+        v-model="snack"
+        :timeout="3000"
+        :color="snackColor"
+    >
+      {{ snackText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            v-bind="attrs"
+            text
+            @click="snack = false"
+        >
+          Fechar
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </v-container>
 </template>
 
 <script>
 import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
+
+const isUnique = async function (value){
+  if(value !== '' && value.length >= 4){
+      const response = await this.$http.get('http://localhost:8081/api/v1/student/ra/' + value);
+      return response.data === null;
+  }
+  return true;
+};
+
 export default {
 
   validations: {
     name: { required, minLength: minLength(4) },
-    ra: { required },
+    ra: { required, minLength: minLength(4), isUnique },
     email: { required, email },
     cpf: { required, minLength: minLength(11), maxLength: maxLength(11) },
   },
@@ -79,7 +108,15 @@ export default {
     ra: '',
     email: '',
     cpf: '',
+
+    snack: false,
+    snackColor: '',
+    snackText: '',
   }),
+
+  mounted() {
+    this.$refs.focus.focus();
+  },
 
   methods: {
     submit () {
@@ -91,10 +128,13 @@ export default {
           ra: this.ra,
           cpf: this.cpf
         })
-        .then(function (response) {
-          console.log(response);
+        .then(() => {
+          this.snackSuccess();
+          this.$refs.focus.focus();
+          this.clear();
         })
-        .catch(function (error) {
+        .catch( error => {
+          this.snackError();
           console.log(error);
         });
       }
@@ -105,7 +145,20 @@ export default {
       this.ra = ''
       this.email = ''
       this.cpf = ''
+    },
+    cancel(){
       this.$router.push({ path: '/aluno'});
+    },
+
+    snackSuccess() {
+      this.snack = true;
+      this.snackColor = 'success';
+      this.snackText = 'Salvo com sucesso!';
+    },
+    snackError() {
+      this.snack = true;
+      this.snackColor = 'error';
+      this.snackText = 'Não foi possível salvar.';
     },
   },
 
@@ -128,6 +181,8 @@ export default {
       let errors = []
       if(!this.$v.ra.$dirty) return errors;
       !this.$v.ra.required && errors.push('Informe o registro acadêmico')
+      !this.$v.ra.isUnique && errors.push('Já existe um aluno com este RA')
+      !this.$v.ra.minLength && errors.push('Precisa ter no mínimo 4 caracteres')
       return errors
     },
     cpfErrors(){

@@ -18,6 +18,7 @@
               @input="$v.name.$touch()"
               @blur="$v.name.$touch()"
               placeholder="Informe o nome completo"
+              ref="focus"
           ></v-text-field>
 
           <v-text-field
@@ -45,13 +46,32 @@
             Cancelar
           </v-btn>
 
-          <v-btn type="submit" :disabled="$v.$invalid">
+          <v-btn type="submit" :disabled="$v.$invalid" color="primary">
             Salvar
           </v-btn>
 
         </form>
       </v-col>
     </v-row>
+
+    <v-snackbar
+        v-model="snack"
+        :timeout="3000"
+        :color="snackColor"
+    >
+      {{ snackText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            v-bind="attrs"
+            text
+            @click="snack = false"
+        >
+          Fechar
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </v-container>
 </template>
 
@@ -70,10 +90,15 @@ export default {
     ra: '',
     email: '',
     cpf: '',
+
+    snack: false,
+    snackColor: '',
+    snackText: '',
   }),
 
   mounted() {
     this.loadData();
+    this.$refs.focus.focus();
   },
 
   methods: {
@@ -98,10 +123,12 @@ export default {
           name: this.name,
           email: this.email
         })
-        .then(function (response) {
-          console.log(response);
+        .then(() => {
+          this.snackSuccess();
+          this.$refs.focus.focus();
         })
-        .catch(function (error) {
+        .catch(error => {
+          this.snackError();
           console.log(error);
         });
       }
@@ -114,6 +141,16 @@ export default {
       this.email = ''
       this.cpf = ''
       this.$router.push({ path: '/aluno'});
+    },
+    snackSuccess() {
+      this.snack = true;
+      this.snackColor = 'success';
+      this.snackText = 'Atualizado com sucesso!';
+    },
+    snackError() {
+      this.snack = true;
+      this.snackColor = 'error';
+      this.snackText = 'Não foi possível salvar.';
     },
   },
 
