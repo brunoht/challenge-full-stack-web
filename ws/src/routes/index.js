@@ -13,6 +13,11 @@ router.get('/api/v1/student/:id', async function(req, res){
     res.json(student);
 });
 
+router.get('/api/v1/student/ra/:ra', async function(req, res){
+    const student = await studentService.getStudentByRa(req.params.ra);
+    res.json(student);
+});
+
 router.post('/api/v1/student', async function(req, res){
     const student = req.body;
     const newStudent = await studentService.saveStudent(student);

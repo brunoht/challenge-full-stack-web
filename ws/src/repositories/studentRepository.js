@@ -11,6 +11,13 @@ exports.getStudent = (id) => {
     );
 }
 
+exports.getStudentByRa = (ra) => {
+    return database.oneOrNone(
+        "SELECT * FROM students WHERE ra = $1",
+        [ra]
+    );
+}
+
 exports.saveStudent = (student) => {
     return database.one(
         "INSERT INTO students (name, email, ra, cpf) values ($1, $2, $3, $4) returning *",

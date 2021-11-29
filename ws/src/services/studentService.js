@@ -8,6 +8,10 @@ exports.getStudent = (id) => {
     return studentData.getStudent(id);
 }
 
+exports.getStudentByRa = (ra) => {
+    return studentData.getStudentByRa(ra);
+}
+
 exports.saveStudent = (student) => {
     return studentData.saveStudent(student);
 }
