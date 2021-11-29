@@ -1,0 +1,1 @@
+create database ws_grupoa_db;

@@ -28,11 +28,47 @@ Caso haja a necessidade de mudar a tecnologia no futuro, migrando do Node para q
 de refatoração poderá ser feito em etapas, não comprometendo toda a aplicação de uma única vez. Isso reduz o tempo de
 refatoração e, consequentemente, custos financeiros do projeto.
 
+Para o banco de dados foi escolhido o Postgres, mas a escolha aqui foi puramente pelo desafio. Eu ainda não tinha
+trabalhado com o Postgres integrado ao Node, apenas ao PHP, portanto preferi utilizar aqui como didática. Normalmente,
+para um projeto Node eu preferiria o MongoDB (inclusive foi a primeira etapa da implementação).
 
+Ainda sobre o banco de dados, foi criada a pasta migrations que armazena um "histórico" das etapas de manipulação do
+banco e dados, fazendo com que se crie uma espécie de versinamento da estrutura do banco de dados. Essa abordagem é
+importante para o controle de futuras atualizações da aplicação na qual haja a necessidade de alteração do banco de dados.
+
+O código foi construído em duas etapas, onde a primeira consistia em apenas montar o projeto como um todo e garantir que
+ele funcionasse de uma maneira mais simples, mas que me permitisse ver a aplicação como um todo montada. Praticamente
+todo o código foi montado num único arquivo, mas isso me ajuda a fazer as coisas mais rapidamente, testar as possíveis
+tecnologias que serão utilizadas no projeto, sem ficar me preocupando muito com a estrutura de pastas, passagem
+de dados, importação e uso de arquivos externos.
+
+Já na segunda etapa, o código já esava todo preparado e funcionando, foi quando realizei o refatoramento do código,
+aplicando melhores práticas de separação das responsabilidades e criando uma hierarquia de diretórios que me permita
+manter e escalar o projeto para as próximas atualizações. Como é um projeto didático apenas, claro que não forcei demais
+uma estruturação completa nem muito complexa. Eu ainda faria um pouco diferente se fosse um projeto real, mas
+considerando que ele precisa ser funcional (seja na sua execução como na leitura do código) eu preferi manter algo que
+fosse adequado ao tamanho do sistema, sem exagerar demais na separação. De qualquer forma, o projeto está com uma
+estrutura inicial eficiente para a sua finalidade e, caso ele realmente cresça, será fácil realizar uma nova
+fatoração e redistribuição do código para comportar uma realidade mais complexa.
+
+Nas rotas da aplicação, por ser uma API, é uma boa prática trabalhar com o versionamento dela. Por isso, as rotas que
+manipulam uma Entidade da aplicação, começa com /api/v1. Claro que a estrutura da pasta e os arquivos não foram
+segmentados aqui neste projeto, onde preferi concentrar todas as rotas no arquivo routes/index.js. Mas em um projeto
+maior, seria mais interessante que cada entidade tivesse seu próprio arquivo para facilitar a manutenção. Fica de
+sugestão para futura melhoria também.
 
 ### Lista de bibliotecas de terceiros utilizadas
 
 #### Backend
+
+nodemon: utilizado para melhorar a produtividade, pois realiza hot reload automático sempre que há alguma alteração no
+código, sem que eu precise parar e reiniciar a aplicação.
+
+body-parser: é um middleware, ou seja, uma camada que além de simplificar a manipulação das requisições que entram na API, ele garante uma camada
+extra de segurança e tratamento e erros.
+
+cors: middleware para tratamento e requisições de origens externas.
+
 
 #### Frontend
 
